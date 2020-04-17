@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.sitemaps.views import sitemap
+from myblog.sitemaps import PostSitemap
+from myblog.feeds import LatestPostsFeed
+
+sitemaps = {'posts': PostSitemap, }
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('myblog.urls', namespace='blog')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('feed/', LatestPostsFeed(), name='post_feed'),
 ]
